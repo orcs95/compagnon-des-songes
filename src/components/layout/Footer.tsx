@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom';
 import { Shield, MapPin, Mail, ExternalLink } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { COMMIT_HASH, COMMIT_DATE } from '@/build-info';
 
 const discordLink = "https://discord.gg/orcs";
 const whatsappLink = "https://chat.whatsapp.com/orcs";
 
 export function Footer() {
+  const { isAdminBoardMember, isCAMember } = useAuth();
+
   return (
     <footer className="bg-card border-t border-border">
       <div className="container mx-auto px-4 py-12">
@@ -44,16 +48,25 @@ export function Footer() {
                   Calendrier
                 </Link>
               </li>
+              {isAdminBoardMember && (
+                <li>
+                  <Link to="/membres" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    Membres
+                  </Link>
+                </li>
+              )}
               <li>
-                <Link to="/membres" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Membres
+                <Link to="/a-propos" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  À propos
                 </Link>
               </li>
-              <li>
-                <Link to="/bureau" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Bureau
-                </Link>
-              </li>
+              {isCAMember && (
+                <li>
+                  <Link to="/gestion-cles" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    Gestion des clés
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
 
@@ -133,6 +146,9 @@ export function Footer() {
               >
                 Politique de confidentialité
               </Link>
+              <div className="text-xs text-muted-foreground font-body">
+                {COMMIT_HASH} — {COMMIT_DATE}
+              </div>
             </div>
           </div>
         </div>

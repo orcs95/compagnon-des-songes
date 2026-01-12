@@ -11,7 +11,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- =============================================
 
 -- Application roles
-CREATE TYPE public.app_role AS ENUM ('admin', 'board_member', 'member');
+CREATE TYPE public.app_role AS ENUM ('admin', 'board_member', 'ca_member', 'member');
 
 -- Board member specific roles
 CREATE TYPE public.board_role AS ENUM ('president', 'treasurer', 'secretary', 'board_member');

@@ -49,7 +49,7 @@ export default function Bureau() {
       <section className="py-16 bg-card/50">
         <div className="container mx-auto px-4">
           <h1 className="font-display text-4xl md:text-5xl font-bold mb-4 text-center">
-            <span className="text-gold-gradient">Le Bureau</span>
+            <span className="text-gold-gradient">À propos</span>
           </h1>
           <p className="text-center text-muted-foreground font-body max-w-2xl mx-auto">
             Découvrez les membres du conseil d'administration qui font vivre notre association au quotidien.
@@ -87,14 +87,6 @@ export default function Bureau() {
                     {member.description}
                   </p>
 
-                  {/* Key Badge */}
-                  {member.hasKey && (
-                    <div className="flex items-center justify-center gap-2 mb-4">
-                      <Key className="h-4 w-4 text-primary" />
-                      <span className="text-xs text-primary font-display">Détenteur de clé</span>
-                    </div>
-                  )}
-
                   {/* Contact */}
                   <a 
                     href={`mailto:${member.email}`}
@@ -106,57 +98,6 @@ export default function Bureau() {
                 </div>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* Key Management Status */}
-      <section className="py-12 bg-card/50">
-        <div className="container mx-auto px-4">
-          <h2 className="font-display text-2xl font-bold mb-8 text-center">
-            Gestion des Clés
-          </h2>
-          <div className="max-w-2xl mx-auto card-fantasy rounded-lg p-8">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="font-display text-lg font-semibold">État des clés du local</h3>
-              <Badge variant="outline" className="border-primary/30 text-primary font-display">
-                2 clés
-              </Badge>
-            </div>
-
-            <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
-                <div className="flex items-center gap-3">
-                  <Key className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="font-display font-semibold">Clé #1</p>
-                    <p className="text-sm text-muted-foreground font-body">Détenue par Alexandre Durand</p>
-                  </div>
-                </div>
-                <Badge className="bg-forest/20 text-forest-light border-forest/30">
-                  Attribuée
-                </Badge>
-              </div>
-
-              <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
-                <div className="flex items-center gap-3">
-                  <Key className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="font-display font-semibold">Clé #2</p>
-                    <p className="text-sm text-muted-foreground font-body">Détenue par Marie Lambert</p>
-                  </div>
-                </div>
-                <Badge className="bg-forest/20 text-forest-light border-forest/30">
-                  Attribuée
-                </Badge>
-              </div>
-            </div>
-
-            <p className="text-xs text-muted-foreground font-body mt-6 text-center">
-              Les transferts de clés nécessitent une confirmation des deux parties.
-              <br />
-              Seuls les membres du bureau peuvent détenir une clé.
-            </p>
           </div>
         </div>
       </section>

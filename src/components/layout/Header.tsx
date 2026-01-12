@@ -1,20 +1,24 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Shield, Calendar, Users, Crown, User, LogIn } from 'lucide-react';
+import { Menu, X, Shield, Calendar, Users, Crown, User, LogIn, Key } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
 
 const navigation = [
   { name: 'Accueil', href: '/', icon: Shield },
   { name: 'Événements', href: '/evenements', icon: Calendar },
   { name: 'Calendrier', href: '/calendrier', icon: Calendar },
+  // 'Membres' will be shown conditionally based on roles
   { name: 'Membres', href: '/membres', icon: Users },
-  { name: 'Bureau', href: '/bureau', icon: Crown },
+  // 'Bureau' renamed to 'À propos' (route /a-propos)
+  { name: 'À propos', href: '/a-propos', icon: Crown },
 ];
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { isAdminBoardMember, isCAMember } = useAuth();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
@@ -39,6 +43,11 @@ export function Header() {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1">
             {navigation.map((item) => {
+              // Don't show 'Membres' link unless user is admin+board member
+              if (item.href === '/membres') {
+                if (!isAdminBoardMember) return null;
+              }
+
               const isActive = location.pathname === item.href;
               return (
                 <Link
@@ -55,6 +64,21 @@ export function Header() {
                 </Link>
               );
             })}
+
+            {/* CA-only key management link */}
+            {isCAMember ? (
+              <Link
+                to="/gestion-cles"
+                className={cn(
+                  "px-4 py-2 rounded-md font-display text-sm tracking-wide transition-all duration-200",
+                  location.pathname === '/gestion-cles'
+                    ? "bg-primary/10 text-primary"
+                    : "text-foreground/80 hover:text-primary hover:bg-primary/5"
+                )}
+              >
+                <Key className="inline mr-2 h-4 w-4" /> Gestion des clés
+              </Link>
+            ) : null}
           </div>
 
           {/* Auth Buttons - Desktop */}
@@ -95,6 +119,11 @@ export function Header() {
         >
           <div className="flex flex-col gap-1 pt-2">
             {navigation.map((item) => {
+              // Hide 'Membres' in mobile for non-admin board members
+              if (item.href === '/membres') {
+                if (!isAdminBoardMember) return null;
+              }
+
               const Icon = item.icon;
               const isActive = location.pathname === item.href;
               return (
@@ -131,6 +160,18 @@ export function Header() {
               <User className="h-5 w-5" />
               Rejoindre l'ordre
             </Link>
+
+            {/* Mobile CA key management link */}
+            {isCAMember ? (
+                <Link
+                  to="/gestion-cles"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-md font-display text-sm text-foreground/80 hover:text-primary hover:bg-primary/5 transition-all"
+                >
+                  <Key className="h-5 w-5" />
+                  Gestion des clés
+                </Link>
+              ) : null}
           </div>
         </div>
       </nav>

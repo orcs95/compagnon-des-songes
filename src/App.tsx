@@ -12,6 +12,7 @@ import Membres from "./pages/Membres";
 import Auth from "./pages/Auth";
 import Connexion from "./pages/Connexion";
 import Inscription from "./pages/Inscription";
+import GestionCles from "./pages/GestionCles";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
@@ -29,11 +30,12 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/evenements" element={<Evenements />} />
             <Route path="/calendrier" element={<Calendrier />} />
-            <Route path="/bureau" element={<Bureau />} />
+            <Route path="/a-propos" element={<Bureau />} />
             <Route path="/membres" element={<Membres />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/connexion" element={<Connexion />} />
             <Route path="/inscription" element={<Inscription />} />
+            <Route path="/gestion-cles" element={<GestionCles />} />
             <Route path="/profil" element={<Profile />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />

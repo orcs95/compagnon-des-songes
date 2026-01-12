@@ -3,7 +3,9 @@ import { Users, Search, Filter, Shield, Dices, Sparkles, UserCheck, UserX } from
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 type ActivityFilter = 'all' | 'jdr' | 'jds' | 'mtg';
 type StatusFilter = 'all' | 'active' | 'inactive';
@@ -118,6 +120,15 @@ export default function Membres() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activityFilter, setActivityFilter] = useState<ActivityFilter>('all');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+
+  const { isLoading, isAdminBoardMember } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoading && !isAdminBoardMember) {
+      navigate('/');
+    }
+  }, [isLoading, isAdminBoardMember, navigate]);
 
   const filteredMembers = members.filter(member => {
     const matchesSearch = member.name.toLowerCase().includes(searchQuery.toLowerCase());

@@ -21,6 +21,9 @@ interface AuthContextType {
   isLoading: boolean;
   isAdmin: boolean;
   isBoardMember: boolean;
+  isBoardOfficer: boolean;
+  isCAMember: boolean;
+  isAdminBoardMember: boolean;
   signUp: (email: string, password: string, fullName: string) => Promise<{ error: Error | null }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
@@ -35,9 +38,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [roles, setRoles] = useState<AppRole[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isBoardOfficer, setIsBoardOfficer] = useState(false);
 
   const isAdmin = roles.includes('admin');
-  const isBoardMember = roles.includes('board_member') || isAdmin;
+  const isCAMember = roles.includes('ca_member');
+  // Board officer: president / treasurer / secretary (active)
+  const isBoardMember = Boolean(isBoardOfficer);
+  // Admin + board_officer: required to access the "Membres" area
+  const isAdminBoardMember = isAdmin && isBoardOfficer;
 
   const fetchProfile = async (userId: string) => {
     const { data: profileData } = await supabase
@@ -58,6 +66,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (rolesData) {
       setRoles(rolesData.map(r => r.role as AppRole));
     }
+
+    // Check if user is a board officer (president / treasurer / secretary)
+    const { data: officerData } = await supabase
+      .from('board_members')
+      .select('board_role')
+      .eq('user_id', userId)
+      .eq('is_active', true)
+      .in('board_role', ['president', 'treasurer', 'secretary'])
+      .limit(1);
+
+    setIsBoardOfficer(Array.isArray(officerData) && officerData.length > 0);
   };
 
   const refreshProfile = async () => {
@@ -147,6 +166,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isLoading,
         isAdmin,
         isBoardMember,
+        isBoardOfficer,
+        isCAMember,
+        isAdminBoardMember,
         signUp,
         signIn,
         signOut,

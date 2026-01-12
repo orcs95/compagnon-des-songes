@@ -64,6 +64,54 @@ This project is built with:
 
 Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
 
+## Roles, migrations et vérifications côté serveur
+
+Rôles applicatifs disponibles:
+- **admin** — administrateur global
+- **board_member** — membre du bureau (stocké dans `board_members` avec un `board_role` qui peut être `president`, `treasurer`, `secretary` ou `board_member`)
+- **ca_member** — membre du conseil d'administration (membre du CA)
+- **member** — membre simple
+
+Remarques importants concernant l'accès:
+- L'onglet **Membres** est accessible uniquement aux utilisateurs **admin** qui sont aussi **membres du bureau** occupant un rôle de type `president`, `treasurer` ou `secretary` (vérification basée sur la colonne `board_role` dans `board_members`).
+- La page **Gestion des clés** est accessible uniquement aux membres du **CA** (rôle `ca_member`).
+
+Migration SQL fournie:
+- Fichier: `supabase/migrations/20260113_add_ca_member_and_board_officer.sql`
+- Actions:
+  - Ajoute la valeur `ca_member` à l'enum `app_role` si nécessaire
+  - Crée `public.is_ca_member(user_id UUID)` pour vérifier le rôle `ca_member`
+  - Crée `public.is_board_officer(user_id UUID)` pour vérifier qu'un utilisateur est `president`/`treasurer`/`secretary` actif
+
+Comment exécuter la migration (Supabase CLI ou psql):
+
+- Avec Supabase CLI (recommandé si vous l'utilisez pour gérer la base):
+
+```bash
+# depuis la racine du projet
+supabase db remote set <CONN_STRING>
+psql "${SUPABASE_DB_URL}" -f supabase/migrations/20260113_add_ca_member_and_board_officer.sql
+```
+
+- Ou simplement en utilisant psql / client SQL connecté à votre base de données:
+
+```bash
+psql "postgres://..." -f supabase/migrations/20260113_add_ca_member_and_board_officer.sql
+```
+
+⚠️ Attention: exécutez la migration sur votre environnement de test avant d'appliquer en production.
+
+## Génération d'informations de build
+
+Le script `scripts/generateBuildInfo.cjs` génère `src/build-info.ts` contenant le hash du dernier commit et la date (précision minutes). Un hook `prebuild` est ajouté à `package.json` pour exécuter ce script avant `vite build`.
+
+```bash
+# pour forcer la génération
+npm run generate:buildinfo
+# ou lors du build (pré-configuré)
+npm run build
+```
+
 ## Can I connect a custom domain to my Lovable project?
 
 Yes, you can!

@@ -26,7 +26,7 @@ const signupSchema = z.object({
   path: ['confirmPassword'],
 });
 
-export default function Auth() {
+export default function Auth({ initialTab = 'login' }: { initialTab?: 'login' | 'signup' }) {
   const navigate = useNavigate();
   const { user, signIn, signUp, isLoading: authLoading } = useAuth();
   const { toast } = useToast();
@@ -166,7 +166,7 @@ export default function Auth() {
         </div>
 
         <Card className="border-primary/20 bg-card/80 backdrop-blur">
-          <Tabs defaultValue="login" className="w-full">
+          <Tabs defaultValue={initialTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="login">Connexion</TabsTrigger>
               <TabsTrigger value="signup">Inscription</TabsTrigger>

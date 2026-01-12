@@ -2,6 +2,11 @@
   "name": "vite_react_shadcn_ts",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://<USERNAME>.github.io/compagnon-des-songes",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/orcs95/compagnon-des-songes.git"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,6 +14,7 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
+    "predeploy": "npm run build",
     "deploy": "vite build && gh-pages -d dist"
   },
   "dependencies": {

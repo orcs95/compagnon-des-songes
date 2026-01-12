@@ -1,26 +1,58 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
-    <title>Lovable App</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
 
-    <!-- TODO: Update og:title to match your application name -->
-    <meta property="og:title" content="Lovable App" />
-    <meta property="og:description" content="Lovable Generated Project" />
+    <!-- Title -->
+    <title>O.R.C.S | Compagnon des Songes</title>
+
+    <!-- SEO -->
+    <meta
+      name="description"
+      content="O.R.C.S – Ordre Rôlistique des Conteurs de Songes. Association de jeux de rôle, jeux de société et Magic: The Gathering à Saint-Brice-sous-Forêt."
+    />
+    <meta name="author" content="O.R.C.S – Ordre Rôlistique des Conteurs de Songes" />
+
+    <!-- Open Graph (Discord, Facebook, etc.) -->
+    <meta property="og:title" content="O.R.C.S | Compagnon des Songes" />
+    <meta
+      property="og:description"
+      content="Site officiel de l'association O.R.C.S. Organisation d'événements, JDR, jeux de société et Friday Night Magic."
+    />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:url" content="https://orcs95.github.io/compagnon-des-songes/" />
+    <meta property="og:image" content="https://orcs95.github.io/compagnon-des-songes/og-image.png" />
+    <meta property="og:locale" content="fr_FR" />
 
+    <!-- Discord specific (same OG tags, but explicit is safer) -->
+    <meta name="theme-color" content="#7a4a2e" />
+
+    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:title" content="O.R.C.S | Compagnon des Songes" />
+    <meta
+      name="twitter:description"
+      content="Association de jeux en tout genre : JDR, jeux de société et Magic: The Gathering."
+    />
+    <meta name="twitter:image" content="https://orcs95.github.io/compagnon-des-songes/og-image.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- PWA / Mobile (optionnel mais propre) -->
+    <meta name="apple-mobile-web-app-title" content="O.R.C.S" />
+    <meta name="application-name" content="O.R.C.S" />
   </head>
 
   <body>
+    <noscript>
+      Ce site nécessite JavaScript pour fonctionner correctement.
+    </noscript>
+
     <div id="root"></div>
+
+    <!-- Vite entry -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

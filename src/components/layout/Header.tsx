@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Shield, Calendar, Users, Crown, User, LogIn, Key } from 'lucide-react';
+import { Menu, X, Shield, Calendar, Users, Crown, User, LogIn, LogOut, Key } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
@@ -18,7 +18,7 @@ const navigation = [
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const { isAdminBoardMember, isCAMember, user } = useAuth();
+  const { isAdminBoardMember, isCAMember, user, signOut } = useAuth();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
@@ -88,17 +88,30 @@ export function Header() {
 
           {/* Auth Buttons - Desktop */}
           <div className="hidden lg:flex items-center gap-3">
-            <Button variant="ghost" size="sm" asChild className="font-display">
-              <Link to="/connexion">
-                <LogIn className="h-4 w-4 mr-2" />
-                Connexion
-              </Link>
-            </Button>
-            <Button size="sm" asChild className="btn-fantasy font-display text-primary-foreground">
-              <Link to="/inscription">
-                Rejoindre
-              </Link>
-            </Button>
+            {user ? (
+              <>
+                <Link to="/profil" className="px-4 py-2 rounded-md font-display text-sm text-foreground/80 hover:text-primary hover:bg-primary/5">
+                  <User className="h-4 w-4 mr-2 inline" /> Mon profil
+                </Link>
+                <Button variant="ghost" size="sm" onClick={() => signOut()} className="font-display">
+                  <LogOut className="h-4 w-4 mr-2" /> Se déconnecter
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="ghost" size="sm" asChild className="font-display">
+                  <Link to="/connexion">
+                    <LogIn className="h-4 w-4 mr-2" />
+                    Connexion
+                  </Link>
+                </Button>
+                <Button size="sm" asChild className="btn-fantasy font-display text-primary-foreground">
+                  <Link to="/inscription">
+                    Rejoindre
+                  </Link>
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -154,22 +167,47 @@ export function Header() {
               );
             })}
             <div className="h-px bg-border my-2" />
-            <Link
-              to="/connexion"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-3 px-4 py-3 rounded-md font-display text-sm text-foreground/80 hover:text-primary hover:bg-primary/5 transition-all"
-            >
-              <LogIn className="h-5 w-5" />
-              Connexion
-            </Link>
-            <Link
-              to="/inscription"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-3 px-4 py-3 rounded-md font-display text-sm bg-primary text-primary-foreground hover:bg-primary/90 transition-all"
-            >
-              <User className="h-5 w-5" />
-              Rejoindre l'ordre
-            </Link>
+            {user ? (
+              <>
+                <Link
+                  to="/profil"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-md font-display text-sm text-foreground/80 hover:text-primary hover:bg-primary/5 transition-all"
+                >
+                  <User className="h-5 w-5" />
+                  Mon profil
+                </Link>
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    signOut();
+                  }}
+                  className="flex items-center gap-3 px-4 py-3 rounded-md font-display text-sm text-foreground/80 hover:text-primary hover:bg-primary/5 transition-all"
+                >
+                  <LogOut className="h-5 w-5" />
+                  Se déconnecter
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/connexion"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-md font-display text-sm text-foreground/80 hover:text-primary hover:bg-primary/5 transition-all"
+                >
+                  <LogIn className="h-5 w-5" />
+                  Connexion
+                </Link>
+                <Link
+                  to="/inscription"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-md font-display text-sm bg-primary text-primary-foreground hover:bg-primary/90 transition-all"
+                >
+                  <User className="h-5 w-5" />
+                  Rejoindre l'ordre
+                </Link>
+              </>
+            )}
 
             {/* Mobile CA key management link */}
             {isCAMember ? (

@@ -107,11 +107,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (session?.user) {
         fetchProfile(session.user.id);
 
-        // 🔥 REDIRECTION MAÎTRISÉE
-        if (event === "SIGNED_IN") {
-          // Use the French route name to match App routes
-          navigate("/profil", { replace: true });
-        }
+        // // 🔥 REDIRECTION MAÎTRISÉE
+        // if (event === "SIGNED_IN") {
+        //   // Use the French route name to match App routes
+        //   navigate("/profil", { replace: true });
+        // }
       } else {
         setProfile(null);
         setRoles([]);

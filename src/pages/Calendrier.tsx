@@ -14,15 +14,7 @@ interface CalendarEvent {
   isFull: boolean;
 }
 
-const calendarEvents: CalendarEvent[] = [
-  { id: '1', title: 'FNM Draft', date: new Date(2025, 0, 17), type: 'mtg', isFull: false },
-  { id: '2', title: 'Soirée JdS', date: new Date(2025, 0, 18), type: 'jds', isFull: false },
-  { id: '3', title: 'D&D Session 5', date: new Date(2025, 0, 24), type: 'jdr', isFull: true },
-  { id: '4', title: 'FNM Standard', date: new Date(2025, 0, 24), type: 'mtg', isFull: false },
-  { id: '5', title: 'Cthulhu Initiation', date: new Date(2025, 0, 25), type: 'jdr', isFull: false },
-  { id: '6', title: 'FNM Commander', date: new Date(2025, 0, 31), type: 'mtg', isFull: false },
-  { id: '7', title: 'Soirée Terraforming', date: new Date(2025, 1, 1), type: 'jds', isFull: false },
-];
+const calendarEvents: CalendarEvent[] = [];
 
 const typeColors: Record<string, string> = {
   jdr: 'bg-crimson border-crimson',

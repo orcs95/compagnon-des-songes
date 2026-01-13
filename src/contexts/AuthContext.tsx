@@ -109,7 +109,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         // 🔥 REDIRECTION MAÎTRISÉE
         if (event === "SIGNED_IN") {
-          navigate("/profile", { replace: true });
+          // Use the French route name to match App routes
+          navigate("/profil", { replace: true });
         }
       } else {
         setProfile(null);
@@ -143,7 +144,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signUp = async (email: string, password: string, fullName: string) => {
     const redirectUrl =
-      "https://orcs95.github.io/compagnon-des-songes/index.html";
+      "https://orcs95.github.io/compagnon-des-songes/";
 
     const { error } = await supabase.auth.signUp({
       email,

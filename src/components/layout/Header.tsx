@@ -18,7 +18,7 @@ const navigation = [
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const { isAdminBoardMember, isCAMember } = useAuth();
+  const { isAdminBoardMember, isCAMember, user } = useAuth();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
@@ -46,6 +46,11 @@ export function Header() {
               // Don't show 'Membres' link unless user is admin+board member
               if (item.href === '/membres') {
                 if (!isAdminBoardMember) return null;
+              }
+
+              // Hide 'À propos' (about) link for unauthenticated users
+              if (item.href === '/a-propos') {
+                if (!user) return null;
               }
 
               const isActive = location.pathname === item.href;
@@ -122,6 +127,11 @@ export function Header() {
               // Hide 'Membres' in mobile for non-admin board members
               if (item.href === '/membres') {
                 if (!isAdminBoardMember) return null;
+              }
+
+              // Hide 'À propos' in mobile for unauthenticated users
+              if (item.href === '/a-propos') {
+                if (!user) return null;
               }
 
               const Icon = item.icon;

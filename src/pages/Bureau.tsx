@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import { Layout } from '@/components/layout/Layout';
 import { Crown, Mail, Shield, Scroll, Coins, Key } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -7,7 +10,6 @@ interface BoardMember {
   name: string;
   role: string;
   roleIcon: typeof Crown;
-  email: string;
   description: string;
   hasKey: boolean;
 }
@@ -18,7 +20,6 @@ const boardMembers: BoardMember[] = [
     name: 'Alexandre Durand',
     role: 'Président',
     roleIcon: Crown,
-    email: 'president@orcs-asso.fr',
     description: 'Maître de guilde depuis 2020, Alexandre coordonne les activités et représente l\'association.',
     hasKey: true,
   },
@@ -27,7 +28,6 @@ const boardMembers: BoardMember[] = [
     name: 'Marie Lambert',
     role: 'Trésorière',
     roleIcon: Coins,
-    email: 'tresorier@orcs-asso.fr',
     description: 'Gardienne des coffres, Marie gère les finances et les cotisations des membres.',
     hasKey: true,
   },
@@ -36,13 +36,21 @@ const boardMembers: BoardMember[] = [
     name: 'Thomas Petit',
     role: 'Secrétaire',
     roleIcon: Scroll,
-    email: 'secretaire@orcs-asso.fr',
     description: 'Chroniqueur de la guilde, Thomas rédige les comptes-rendus et gère la communication.',
     hasKey: false,
   },
 ];
 
 export default function Bureau() {
+  const { user, isLoading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      navigate('/connexion');
+    }
+  }, [isLoading, user, navigate]);
+
   return (
     <Layout>
       {/* Hero */}
@@ -87,14 +95,6 @@ export default function Bureau() {
                     {member.description}
                   </p>
 
-                  {/* Contact */}
-                  <a 
-                    href={`mailto:${member.email}`}
-                    className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-body"
-                  >
-                    <Mail className="h-4 w-4" />
-                    {member.email}
-                  </a>
                 </div>
               );
             })}
@@ -109,7 +109,7 @@ export default function Bureau() {
             <h2 className="font-display text-2xl font-bold mb-4">À propos de l'association</h2>
             <p className="text-muted-foreground font-body leading-relaxed mb-6">
               O.R.C.S - Ordre Rôlistique des Conteurs de Songes est une association loi 1901 
-              fondée en 2019. Notre mission est de promouvoir les jeux de rôle, jeux de société 
+              fondée en 2019. Notre mission est de promouvoir le jeu sous toutes ces formes. Nous pratiquons principalement en ce moment les jeux de rôle, jeux de société 
               et jeux de cartes à collectionner dans le Val d'Oise.
             </p>
             <div className="grid grid-cols-2 gap-4 text-sm">

@@ -7,7 +7,7 @@ const discordLink = "https://discord.gg/orcs";
 const whatsappLink = "https://chat.whatsapp.com/orcs";
 
 export function Footer() {
-  const { isAdminBoardMember, isCAMember } = useAuth();
+  const { isAdminBoardMember, isCAMember, user } = useAuth();
 
   return (
     <footer className="bg-card border-t border-border">
@@ -55,11 +55,13 @@ export function Footer() {
                   </Link>
                 </li>
               )}
-              <li>
-                <Link to="/a-propos" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  À propos
-                </Link>
-              </li>
+              {user && (
+                <li>
+                  <Link to="/a-propos" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    À propos
+                  </Link>
+                </li>
+              )}
               {isCAMember && (
                 <li>
                   <Link to="/gestion-cles" className="text-sm text-muted-foreground hover:text-primary transition-colors">

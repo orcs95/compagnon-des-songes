@@ -144,7 +144,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signUp = async (email: string, password: string, fullName: string) => {
     const redirectUrl =
-      "https://orcs95.github.io/compagnon-des-songes/";
+      "https://orcs95.github.io/compagnon-des-songes/index.html";
 
     const { error } = await supabase.auth.signUp({
       email,

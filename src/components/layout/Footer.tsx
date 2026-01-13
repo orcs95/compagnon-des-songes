@@ -94,37 +94,6 @@ export function Footer() {
               </li>
             </ul>
           </div>
-
-          {/* Community */}
-          <div>
-            <h4 className="font-display text-sm font-semibold text-foreground mb-4">
-              Communauté
-            </h4>
-            <ul className="space-y-2 font-body">
-              <li>
-                <a
-                  href={discordLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  Discord
-                </a>
-              </li>
-              <li>
-                <a
-                  href={whatsappLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  WhatsApp
-                </a>
-              </li>
-            </ul>
-          </div>
         </div>
 
         {/* Bottom Bar */}

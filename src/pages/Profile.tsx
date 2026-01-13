@@ -55,6 +55,7 @@ export default function Profile() {
     { community: Community; status: string }[]
   >([]);
   const [requestLoading, setRequestLoading] = useState(false);
+  const [profileAttempts, setProfileAttempts] = useState(0);
 
   /* ===========================
      AUTH / PROFILE
@@ -86,6 +87,18 @@ export default function Profile() {
       .eq("user_id", user.id)
       .then(({ data }) => setCommunityRequests(data || []));
   }, [user]);
+
+  /* If a newly created user doesn't have a profile row yet (race with auth trigger),
+     retry a few times before showing 'Profil non trouvé' */
+  useEffect(() => {
+    if (!authLoading && user && !profile && profileAttempts < 3) {
+      const t = setTimeout(async () => {
+        await refreshProfile();
+        setProfileAttempts((p) => p + 1);
+      }, 800);
+      return () => clearTimeout(t);
+    }
+  }, [authLoading, user, profile, profileAttempts, refreshProfile]);
 
   const getRequestStatus = (community: Community) =>
     communityRequests.find((r) => r.community === community)?.status;
@@ -179,10 +192,28 @@ export default function Profile() {
   }
 
   if (!profile) {
+    // If we're still retrying to fetch the profile, show a spinner + message
+    if (profileAttempts < 3) {
+      return (
+        <Layout>
+          <div className="flex items-center justify-center min-h-[60vh] flex-col gap-3">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <p className="text-sm text-muted-foreground">Recherche du profil…</p>
+          </div>
+        </Layout>
+      );
+    }
+
+    // After retries, show a clear 'not found' state with an action to retry
     return (
       <Layout>
         <div className="container py-12 text-center">
           <p>Profil non trouvé</p>
+          <div className="mt-4">
+            <Button onClick={async () => { setProfileAttempts(0); await refreshProfile(); }}>
+              Réessayer
+            </Button>
+          </div>
         </div>
       </Layout>
     );

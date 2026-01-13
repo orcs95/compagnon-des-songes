@@ -167,32 +167,7 @@ export function ActivitiesSection() {
 }
 
 export function UpcomingEventsSection() {
-  const events = [
-    {
-      date: "17",
-      month: "Jan",
-      title: "Friday Night Magic",
-      type: "Magic: The Gathering",
-      time: "20h00",
-      spots: "8 places restantes",
-    },
-    {
-      date: "18",
-      month: "Jan",
-      title: "Soirée Jeux de Société",
-      type: "Jeux de Société",
-      time: "14h00",
-      spots: "15 places restantes",
-    },
-    {
-      date: "24",
-      month: "Jan",
-      title: "Campagne D&D - Session 5",
-      type: "Jeux de Rôle",
-      time: "19h00",
-      spots: "Complet",
-    },
-  ];
+  const events = [];
 
   return (
     <section className="py-20">
